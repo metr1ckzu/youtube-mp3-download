@@ -1,13 +1,18 @@
 {% extends 'downloader/base.html' %}
 {% block news_active %}active{% endblock %}
 {% block body%}
-<h1>Input youtube adress here</h1>
-    <form class="form-horizontal" action="/submit/" method="post">
-    {% csrf_token %}
 
-    <input type="text" name="source_url">
-        <input type="submit" value="Submit" class="btn btn-success">
-
+    <form action="submit" class="form-inline" method="post">
+        {% csrf token %}
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Video url" name="source_url">
+        </div>
+        <div class="form-group">
+             <input type="text" class="form-control" placeholder="Your e-mail" name ="user_email">
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Submit" class="btn btn-success">
+        </div>
     </form>
 
 
