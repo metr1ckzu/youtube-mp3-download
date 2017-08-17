@@ -121,8 +121,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Celery Settings (DRAFT)
-BROKER_URL = os.getenv('BROKER_URL', 'amqp://guest:guest@127.0.0.1//')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'amqp')
+BROKER_URL = 'amqp://guest:guest@127.0.0.1//'
+CELERY_RESULT_BACKEND = 'CELERY_RESULT_BACKEND', 'amqp'
 
 # Media files (DRAFT)
 MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
@@ -131,7 +131,7 @@ MEDIA_URL = '/media/'
 # SMTP settings (DRAFT)
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'XXXX'
-EMAIL_HOST_PASSWORD = 'XXXX'
-EMAIL_PORT = 587
+EMAIL_HOST = 'mail.smtp2go.com'
+EMAIL_HOST_USER = 'youtubedl@youtubedl.com'
+EMAIL_HOST_PASSWORD = 'fwv0nyjReB7M'
+EMAIL_PORT = 2525
