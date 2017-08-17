@@ -7,6 +7,9 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 
 from .models import Video, User
+from downloader import tasks
+
+from celery.result import AsyncResult
 
 # Create your views here.
 
@@ -14,10 +17,40 @@ def submit(request):
     template_name = 'downloader/index.html'
 
     if request.method == 'POST':
-        source_url = request.POST['source_url']
+        url = request.POST['source_url']
         user_email = request.POST['user_email']
 
+        task = tasks.convert.delay(url)
+        result = AsyncResult(task.id)
 
+        is_ready = False
+        while not is_ready:
+            is_ready = result.ready()
+            time.sleep(1)
+
+        data = {
+            'task_id': task.id,
+            'is_ready': False,
+        }
+
+        if result.succesful():
+            if result.result:
+                youtube_id = result.result['youtibe_id']
+                filename = result.result['filename']
+                download_link = reverse(
+                    'download_view',
+                    kwargs={'youtube_id': youtube_id,
+                            'filename': filename})
+
+                send_mail(
+                    'Your video have been converted',
+                    'You can download it here {}'.format(download_link),
+                    'metr1ckzu@gmail.com',
+                    [user_email],
+                    fail_silently=false,
+                )
+
+        return render(request, 'download.html')
     return render(request, template_name)
 
 def download(request, youtube_id, filename):
@@ -36,36 +69,3 @@ def download(request, youtube_id, filename):
         response = HttpResponse(content_type='application/force_download')
         response['Content-Length'] = os.path.getsize(filepath)
         response
-
-
-def conversion(request):
-    url = request.POST['source_url']
-    task = tasks.convert.delay(url)
-    result = AsyncResult(task.id)
-
-    is_ready = False
-    while not is_ready:
-        is_ready = resutlready()
-        time.sleep(1)
-
-    data = {
-        'task_id': task.id,
-        'is_ready': False,
-    }
-
-    if result.succesful():
-        if result.result:
-            youtube_id = result.result['youtibe_id']
-            filename = result.result['filename']
-            download_link = reverse(
-                'download_view',
-                kwargs={'youtube_id': youtube_id,
-                        'filename': filename})
-
-            send_mail(
-                'Your video have been converted',
-                'You can download it here {}'.format(download_link),
-                'metr1ckzu@gmail.com',
-                [user_email],
-                fail_silently=false,
-            )

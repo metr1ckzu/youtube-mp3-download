@@ -20,5 +20,5 @@ from downloader import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.submit, name='index'),
-    url(r'sumbit^$', views.submit, name='index'),
+    url(r'^submit$', views.submit, name='index'),
 ]

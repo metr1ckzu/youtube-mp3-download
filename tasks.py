@@ -5,14 +5,14 @@ import shutil
 import subprocess
 import uuid
 
-form django.conf import settings
+from django.conf import settings
 
-from celery import shared_tasks
+from celery import shared_task, Celery
 
-from youtubeadl.models import Video
-from youtubeadl.apps.downloader.utils import create_filename, get_video_info
+from downloader.models import Video
+from downloader.utils import create_filename, get_video_info
 
-@shared_tasks
+@shared_task
 def convert(url):
     result = None
     duration = None

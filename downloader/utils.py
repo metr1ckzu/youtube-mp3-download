@@ -2,7 +2,23 @@ import uuid
 
 import youtube_dl
 
-from youtubeadl.apps.core.utils import slugify
+def slugify(text, delim='-'):
+    """
+    Slugifies a string.
+    This is slightly different from the built-in one in Django.
+    Source: http://stackoverflow.com/questions/9042515/normalizing-unicode-\
+        text-to-filenames-etc-in-python
+    """
+    result = []
+
+    re_obj = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
+    for word in re_obj.split(text):
+        word = normalize('NFKD', word).encode('ascii', 'ignore').decode('utf-8')
+        word = word.replace('/', '')
+        if word:
+            result.append(word)
+
+    return delim.join(result)
 
 
 def create_filename(value):

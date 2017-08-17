@@ -121,8 +121,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Celery Settings (DRAFT)
-BROKER_URL = os.getenv('BROKER_URL', 'amqp://guest:guest@127.0.0.1//')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'amqp')
+BROKER_URL = 'amqp://guest:guest@127.0.0.1//'
+CELERY_RESULT_BACKEND = 'CELERY_RESULT_BACKEND', 'amqp'
 
 # Media files (DRAFT)
 MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
