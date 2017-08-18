@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import time
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -15,6 +16,7 @@ from celery.result import AsyncResult
 
 def submit(request):
     template_name = 'downloader/index.html'
+    template_name_download = 'downloader/download.html'
 
     if request.method == 'POST':
         url = request.POST['source_url']
@@ -33,7 +35,7 @@ def submit(request):
             'is_ready': False,
         }
 
-        if result.succesful():
+        if result.successful():
             if result.result:
                 youtube_id = result.result['youtibe_id']
                 filename = result.result['filename']
@@ -50,7 +52,7 @@ def submit(request):
                     fail_silently=false,
                 )
 
-        return render(request, 'download.html')
+        return render(request, template_name_download)
     return render(request, template_name)
 
 def download(request, youtube_id, filename):
