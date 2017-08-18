@@ -11,7 +11,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'youtubedl.settings')
 
 app = Celery('youtubedl')
 
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object('django.conf:settings')
 app.autodiscover_tasks()
 #app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
