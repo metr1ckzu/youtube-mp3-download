@@ -1,4 +1,6 @@
 import uuid
+import re
+from unicodedata import normalize
 
 import youtube_dl
 
