@@ -37,7 +37,7 @@ def submit(request):
 
         if result.successful():
             if result.result:
-                youtube_id = result.result['youtibe_id']
+                youtube_id = result.result['youtube_id']
                 filename = result.result['filename']
                 download_link = reverse(
                     'download_view',
