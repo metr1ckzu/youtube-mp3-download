@@ -2,7 +2,7 @@
 {% block news_active %}active{% endblock %}
 {% block body %}
 
-    <form action="download" class="form-inline" method="post">
+    <form action="submit" class="form-inline" method="post">
         {% csrf_token %}
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Video url" name="source_url">
